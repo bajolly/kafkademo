@@ -8,7 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class KafkaDemoConsumer {
-    @KafkaListener(topics = "demo-topic", groupId = "demo-group")
+
+    @KafkaListener(topics = "resume-chunks-topic", groupId = "demo-group")
     public void listen(String message) {
         log.info("Received Message: " + message);
     }

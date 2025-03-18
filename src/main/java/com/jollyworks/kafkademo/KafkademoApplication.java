@@ -4,10 +4,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.OrderComparator;
-import org.springframework.core.annotation.Order;
 
-import com.jollyworks.kafkademo.consumers.KafkaDemoConsumer;
 import com.jollyworks.kafkademo.producers.KafkaDemoProducer;
 
 @SpringBootApplication
@@ -23,9 +20,8 @@ public class KafkademoApplication {
 	}
 
 
-	@Order(0)
 	@Bean
-	public ApplicationRunner producerRunner(KafkaDemoProducer demoProducer) { 
+	ApplicationRunner producerRunner(KafkaDemoProducer demoProducer) { 
 
 			return args -> {
 				demoProducer.sendRoundRobinbMessageAsync("testing");
@@ -33,10 +29,4 @@ public class KafkademoApplication {
 				// until after producerRunner completes
 			};
 	}
-
-	@Order()
-	@Bean ApplicationRunner consumerRunner(KafkaDemoConsumer demoConsumer) { 
-		return null;
-	}
-
 }

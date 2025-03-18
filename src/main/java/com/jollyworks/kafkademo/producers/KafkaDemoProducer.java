@@ -22,7 +22,7 @@ public class KafkaDemoProducer {
 
     public void sendRoundRobinbMessageAsync(String message) {
         // don't need have there records do to the same partition
-        ProducerRecord<String, String> pr = creatRecord(message);
+        ProducerRecord<String, String> pr = createRecord(message);
         CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(pr);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
@@ -39,7 +39,7 @@ public class KafkaDemoProducer {
 
     public void sendRoundRobinbMessageBlock(String message) {
         // don't need have there records do to the same partition
-        ProducerRecord<String, String> pr = creatRecord(message);
+        ProducerRecord<String, String> pr = createRecord(message);
         CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(pr);
         
         try {
@@ -52,8 +52,9 @@ public class KafkaDemoProducer {
         }
     }
 
-    private ProducerRecord<String, String> creatRecord(String msg) {
-        var pr = new ProducerRecord<String, String>(null, null, msg);
+    private ProducerRecord<String, String> createRecord(String msg) {
+        var defaultTopic = kafkaTemplate.getDefaultTopic();
+        var pr = new ProducerRecord<String, String>(defaultTopic, msg);
         return pr;
     }
     
