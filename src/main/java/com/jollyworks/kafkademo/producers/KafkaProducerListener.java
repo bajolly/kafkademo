@@ -12,19 +12,19 @@ public class KafkaProducerListener implements ProducerListener<String, String>{
 
     @Override
     public void onError(ProducerRecord<String, String> producerRecord, @Nullable RecordMetadata recordMetadata, Exception exception) {
-        log.error("Failed to write record to Topic %s partion %d key %s",
-        producerRecord.partition(),
+        log.error(String.format("Failed to write record to Topic %s partion %d key %s",
         producerRecord.topic(),
-        producerRecord.key(), exception);
+        producerRecord.partition(),
+        producerRecord.key()), exception);
     }
      
 
     @Override
     public void onSuccess(ProducerRecord<String, String> producerRecord, RecordMetadata recordMetadata) {
-        log.error("Successfully to write record to Topic %s partion %d key %s",
-        recordMetadata.partition(),
+        log.info(String.format(String.format("Successfully wrote record to Topic %s Partion %d Key %s with Value %s",
         recordMetadata.topic(),
-        producerRecord.key());
+        recordMetadata.partition(),
+        producerRecord.key(),
+        producerRecord.value())));
     }
-    
 }

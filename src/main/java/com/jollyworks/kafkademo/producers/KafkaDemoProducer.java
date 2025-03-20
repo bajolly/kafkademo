@@ -26,9 +26,9 @@ public class KafkaDemoProducer {
         CompletableFuture<SendResult<String, String>> future = kafkaTemplate.send(pr);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                log.info("Message sen to topic %s and partition %d", 
+                log.info(String.format("Message sent to topic %s and partition %d", 
                 result.getRecordMetadata().topic(),
-                result.getRecordMetadata().partition());
+                result.getRecordMetadata().partition()));
             }
             else { 
                 log.error(ex.getMessage(), ex);
@@ -44,7 +44,7 @@ public class KafkaDemoProducer {
         
         try {
             SendResult<String, String> result = future.get();
-            log.info("Message sen to topic %s and partition %d", 
+            log.info("Message sent to topic %s and partition %d", 
             result.getRecordMetadata().topic(),
             result.getRecordMetadata().partition());
         } catch (InterruptedException | ExecutionException e) {
@@ -57,5 +57,4 @@ public class KafkaDemoProducer {
         var pr = new ProducerRecord<String, String>(defaultTopic, msg);
         return pr;
     }
-    
 }
