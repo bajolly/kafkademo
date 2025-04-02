@@ -23,12 +23,12 @@ class HtmlReaderTest {
     @BeforeEach
     void setUp() throws IOException {
         // Load the real HTML file from resources
-        Resource resource = new ClassPathResource("test.html");
-        htmlReader = new HtmlReader(resource);
+        Resource htmlresource = new ClassPathResource("test.html");
+        htmlReader = new HtmlReader(htmlresource);
     }
 
     @Test
-    void testLoadText() throws TikaException {
+    void testLoadHtmlText() throws TikaException {
         List<Document> documents = htmlReader.loadText();
 
         // Assertions

@@ -5,13 +5,15 @@ import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.kafka.support.ProducerListener;
 import org.springframework.lang.Nullable;
 
+import com.jollyworks.kafkademo.messages.RssItem;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class KafkaProducerListener implements ProducerListener<String, String>{
+public class KafkaProducerListener implements ProducerListener<String, RssItem>{
 
     @Override
-    public void onError(ProducerRecord<String, String> producerRecord, @Nullable RecordMetadata recordMetadata, Exception exception) {
+    public void onError(ProducerRecord<String, RssItem> producerRecord, @Nullable RecordMetadata recordMetadata, Exception exception) {
         log.error(String.format("Failed to write record to Topic %s partion %d key %s",
         producerRecord.topic(),
         producerRecord.partition(),
@@ -20,7 +22,7 @@ public class KafkaProducerListener implements ProducerListener<String, String>{
      
 
     @Override
-    public void onSuccess(ProducerRecord<String, String> producerRecord, RecordMetadata recordMetadata) {
+    public void onSuccess(ProducerRecord<String, RssItem> producerRecord, RecordMetadata recordMetadata) {
         log.info(String.format(String.format("Successfully wrote record to Topic %s Partion %d Key %s with Value %s",
         recordMetadata.topic(),
         recordMetadata.partition(),

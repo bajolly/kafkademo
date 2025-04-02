@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss/">
+  <channel>
+    <title>TestRss</title>
+    <description>This is a test RSS feed document</description>
+    <link>https://www.jollyworks.com/rss/1006</link>
+    <item>
+      <title>Scott and Omar press for details about reported staff cuts at NIOSH</title>
+      <description>Washington — Citing news reports about staffing cuts at the Centers for Disease Control and Prevention, two prominent House Democrats have asked Health and Human Services Secretary Robert F. Kennedy Jr. for information about how NIOSH has been affected.</description>
+      <pubDate>Wed, 26 Feb 2025 00:00:00 -0500</pubDate>
+      <link>https://www.safetyandhealthmagazine.com/articles/26536-scott-and-omar-press-for-details-about-reported-staff-cuts-at-niosh</link>
+      <guid>https://www.safetyandhealthmagazine.com/articles/26536-scott-and-omar-press-for-details-about-reported-staff-cuts-at-niosh</guid>
+      <media:content url="https://www.safetyandhealthmagazine.com/ext/resources/images/news/people/Scott-Omar.jpg?1740603486" type="unknown/unknown" fileSize="76882" height="492" width="768">
+        <media:thumbnail url="https://www.safetyandhealthmagazine.com/ext/resources/images/news/people/thumb/Scott-Omar.jpg?1740603488" height="96" width="150"/>
+      </media:content>
+    </item>
+    <item>
+      <title>Some cars’ automatic braking tech may not recognize hi-vis clothing, IIHS says </title>
+      <description>Arlington, VA — High-visibility, reflective clothing may present a “blind spot” for some vehicles’ pedestrian-sensing automatic emergency braking technology, results of a recent study from the Insurance Institute for Highway Safety show.</description>
+      <pubDate>Wed, 26 Feb 2025 00:00:00 -0500</pubDate>
+      <link>https://www.safetyandhealthmagazine.com/articles/26535-some-automatic-braking-tech-may-not-recognize-hi-vis-clothing-iihs-says</link>
+      <guid>https://www.safetyandhealthmagazine.com/articles/26535-some-automatic-braking-tech-may-not-recognize-hi-vis-clothing-iihs-says</guid>
+      <media:content url="https://www.safetyandhealthmagazine.com/ext/resources/images/news/construction/night-work.jpg?1740594670" type="unknown/unknown" fileSize="80563" height="492" width="768">
+        <media:thumbnail url="https://www.safetyandhealthmagazine.com/ext/resources/images/news/construction/thumb/night-work.jpg?1740594670" height="96" width="150"/>
+      </media:content>
+    </item>
+    <item>
+      <title>Crane safety: New tool for addressing common hazards</title>
+      <description>Murray, UT — A new online tool from the NCCCO Foundation and the National Safety Council is intended to help improve safety on jobsites where cranes and other load-handling equipment are used.</description>
+      <pubDate>Tue, 25 Feb 2025 00:00:00 -0500</pubDate>
+      <link>https://www.safetyandhealthmagazine.com/articles/26533-crane-safety-free-tool-for-addressing-common-hazards</link>
+      <guid>https://www.safetyandhealthmagazine.com/articles/26533-crane-safety-free-tool-for-addressing-common-hazards</guid>
+      <media:content url="https://www.safetyandhealthmagazine.com/ext/resources/images/news/construction/BW-crane.jpg?1740508839" type="unknown/unknown" fileSize="66116" height="492" width="768">
+        <media:thumbnail url="https://www.safetyandhealthmagazine.com/ext/resources/images/news/construction/thumb/BW-crane.jpg?1740508839" height="96" width="150"/>
+      </media:content>
+    </item>
+  </channel>
+</rss>

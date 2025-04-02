@@ -19,7 +19,10 @@ import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.support.serializer.JsonSerializer;
 
+import com.jollyworks.kafkademo.messages.RssItem;
 import com.jollyworks.kafkademo.producers.KafkaProducerListener;
 
 import reactor.kafka.receiver.ReceiverOptions;
@@ -38,7 +41,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    ProducerFactory<String, String> producerFactory(String kafka_server) {
+    ProducerFactory<String, RssItem> producerFactory(String kafka_server) {
         return new DefaultKafkaProducerFactory<>(producerConfigs(kafka_server));
     }
 
@@ -47,16 +50,16 @@ public class KafkaConfiguration {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafka_server);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         // See https://kafka.apache.org/documentation/#producerconfigs for more
         // properties
         return props;
     }
 
     @Bean
-    KafkaTemplate<String, String> kafkaTemplate(
+    KafkaTemplate<String, RssItem> kafkaTemplate(
             @Value("${spring.kafka.bootstrap-servers:localhost:9092}") String kafkaServer) {
-        var kt = new KafkaTemplate<String, String>(producerFactory(kafkaServer));
+        var kt = new KafkaTemplate<String, RssItem>(producerFactory(kafkaServer));
         // THIS is for learning only in current implementation this will result in
         // double logging
         // since Producer also logs results of send method
@@ -85,7 +88,7 @@ public class KafkaConfiguration {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "reactive-group");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");

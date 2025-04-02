@@ -18,7 +18,9 @@ public class HtmlReader {
 
         public List<Document> loadText() { 
             TikaDocumentReader tikaDocumentReader = new TikaDocumentReader(resource);
-            return tikaDocumentReader.read();
+            
+            List<Document> documents = tikaDocumentReader.read();
+            return documents;
         }
 
 }
