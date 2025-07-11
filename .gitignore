@@ -45,6 +45,7 @@ Thumbs.db
 *.log
 logs/
 application.log
+kafkademo.log
 
 ### Environment variables ###
 .env

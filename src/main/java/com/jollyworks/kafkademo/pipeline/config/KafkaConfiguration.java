@@ -34,8 +34,8 @@ public class KafkaConfiguration {
 
     @Scope("singleton")
     @Bean
-    NewTopic chunksTopic() {
-        return TopicBuilder.name("resume-chunks-topic")
+    NewTopic rssItemsTopic() {
+        return TopicBuilder.name("rss-items-topic")
                 .partitions(1)
                 .replicas(1)
                 .build();
@@ -79,7 +79,7 @@ public class KafkaConfiguration {
             @Value("${spring.kafka.bootstrap-servers:localhost:9092}") String kafkaServer) {
         var kt = new KafkaTemplate<String, RssItem>(rssProducerFactory(kafkaServer));
         kt.setProducerListener(new KafkaProducerListener());
-        kt.setDefaultTopic(chunksTopic().name());
+        kt.setDefaultTopic(rssItemsTopic().name());
         return kt;
     }
 
@@ -101,7 +101,7 @@ public class KafkaConfiguration {
             @Value("${spring.kafka.bootstrap-servers:localhost:9092}") String kafkaServer) {
         var props = consumerConfig(kafkaServer);
         return ReceiverOptions.<String, String>create(props)
-                .subscription(Collections.singleton("resume-chunks-topic"))
+                .subscription(Collections.singleton("rss-items-topic"))
                 .commitBatchSize(100)
                 .addAssignListener(partitions -> partitions.forEach(ReceiverPartition::seekToBeginning));
     }
@@ -121,7 +121,7 @@ public class KafkaConfiguration {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "rss-reactive-group");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
