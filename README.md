@@ -19,7 +19,7 @@ Make sure you have an instance of Kafka running. You can start Kafka using the f
     ```sh
     kafka-server-start.sh ~/kafka_2.13-3.9.0/config/server.properties
     ```
-5. **Start Required Services** The Demo Project expects ChromaDB and Postgres to be running.  Start those services in docker by running 
+5. **Start Required Services** The Demo Project expects ChromaDB to be running.  Start the service in docker by running 
     ```sh
     docker compose up
     ```

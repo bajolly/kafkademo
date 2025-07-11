@@ -1,14 +1,15 @@
 package com.jollyworks.kafkademo.producer;
 
-import com.jollyworks.kafkademo.config.KafkaConfiguration;
-import com.jollyworks.kafkademo.config.Udf;
-import com.jollyworks.kafkademo.messages.RssItem;
+import com.jollyworks.kafkademo.pipeline.rss.dto.RssItem;
+import com.jollyworks.kafkademo.pipeline.config.KafkaConfiguration;
+import com.jollyworks.kafkademo.pipeline.config.Udf;
+import com.jollyworks.kafkademo.pipeline.rss.KafkaRSSProducer;
 import com.jollyworks.kafkademo.platform.StringHashFunction;
-import com.jollyworks.kafkademo.producers.KafkaRSSProducer;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.bean.override.mockito.MockitoSpyBean;
@@ -24,9 +25,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
+@EmbeddedKafka(bootstrapServersProperty = "spring.kafka.bootstrap-servers")
 @ContextConfiguration(classes = {KafkaRSSProducer.class,
     KafkaConfiguration.class,
-    Udf.class})
+    Udf.class,
+    StringHashFunction.class})
 public class TestKafkaDemoProducer {
     @MockitoSpyBean
     private KafkaRSSProducer kafkaDemoProducer;
