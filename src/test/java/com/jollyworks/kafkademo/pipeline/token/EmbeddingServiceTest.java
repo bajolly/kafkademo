@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
 
+import com.jollyworks.kafkademo.pipeline.content.dto.ContentItem;
 import reactor.kafka.receiver.ReceiverOptions;
 
 import java.util.Arrays;
@@ -34,7 +35,7 @@ class EmbeddingServiceTest {
     private TextSplitter characterTextSplitter;
 
     @Mock
-    private ReceiverOptions<String, String> receiverOptions;
+    private ReceiverOptions<String, ContentItem> receiverOptions;
 
     private EmbeddingService embeddingService;
 

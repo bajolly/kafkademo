@@ -11,8 +11,7 @@ import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jollyworks.kafkademo.pipeline.content.dto.ContentItem;
 import com.jollyworks.kafkademo.pipeline.token.dto.TokenChunk;
 
 import lombok.extern.slf4j.Slf4j;
@@ -27,18 +26,16 @@ public class EmbeddingService {
     private final VectorStore sentenceVectorStore;
     private final VectorStore characterVectorStore;
     private final List<TextSplitter> textSplitters;
-    private final ObjectMapper objectMapper;
-    private final KafkaReceiver<String, String> contentReceiver;
+    private final KafkaReceiver<String, ContentItem> contentReceiver;
     
     public EmbeddingService(
             @Qualifier("sentenceVectorStore") VectorStore sentenceVectorStore,
             @Qualifier("characterVectorStore") VectorStore characterVectorStore,
             List<TextSplitter> textSplitters,
-            ReceiverOptions<String, String> contentReactiveConsumerOptions) {
+            ReceiverOptions<String, ContentItem> contentReactiveConsumerOptions) {
         this.sentenceVectorStore = sentenceVectorStore;
         this.characterVectorStore = characterVectorStore;
         this.textSplitters = textSplitters;
-        this.objectMapper = new ObjectMapper();
         this.contentReceiver = KafkaReceiver.create(contentReactiveConsumerOptions);
     }
     
@@ -46,12 +43,12 @@ public class EmbeddingService {
         contentReceiver.receive()
             .flatMap(record -> {
                 try {
-                    JsonNode contentJson = objectMapper.readTree(record.value());
-                    String id = contentJson.get("id").asText();
-                    String title = contentJson.get("title").asText();
-                    String url = contentJson.get("url").asText();
-                    String content = contentJson.get("content").asText();
-                    String pubDate = contentJson.get("pubDate").asText();
+                    ContentItem contentItem = record.value();
+                    String id = contentItem.id();
+                    String title = contentItem.title();
+                    String url = contentItem.url();
+                    String content = contentItem.content();
+                    String pubDate = contentItem.pubDate();
                     
                     log.info("Processing content for embeddings: {} - {}", id, title);
                     

@@ -23,10 +23,10 @@ public class KafkaProducerListener implements ProducerListener<String, RssItem>{
 
     @Override
     public void onSuccess(ProducerRecord<String, RssItem> producerRecord, RecordMetadata recordMetadata) {
-        log.info(String.format(String.format("Successfully wrote record to Topic %s Partion %d Key %s with Value %s",
+        log.info(String.format("Successfully wrote record to Topic %s Partition %d Key %s with Value %s",
         recordMetadata.topic(),
         recordMetadata.partition(),
         producerRecord.key(),
-        producerRecord.value())));
+        producerRecord.value()));
     }
 }

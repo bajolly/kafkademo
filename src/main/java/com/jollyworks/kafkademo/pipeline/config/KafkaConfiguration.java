@@ -107,10 +107,10 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    ReceiverOptions<String, String> contentReactiveConsumerOptions(
+    ReceiverOptions<String, ContentItem> contentReactiveConsumerOptions(
             @Value("${spring.kafka.bootstrap-servers:localhost:9092}") String kafkaServer) {
         var props = contentConsumerConfig(kafkaServer);
-        return ReceiverOptions.<String, String>create(props)
+        return ReceiverOptions.<String, ContentItem>create(props)
                 .subscription(Collections.singleton("content-topic"))
                 .commitBatchSize(100)
                 .addAssignListener(partitions -> partitions.forEach(ReceiverPartition::seekToBeginning));
@@ -137,6 +137,9 @@ public class KafkaConfiguration {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "content-reactive-group");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+        // Configure JsonDeserializer to trust the ContentItem package
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "com.jollyworks.kafkademo.pipeline.content.dto");
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, ContentItem.class.getName());
         return props;
     }
 }

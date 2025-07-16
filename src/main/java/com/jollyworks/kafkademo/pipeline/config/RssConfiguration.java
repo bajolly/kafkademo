@@ -13,7 +13,8 @@ import org.springframework.integration.config.EnableIntegration;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.Pollers;
 import org.springframework.integration.feed.inbound.FeedEntryMessageSource;
-import org.springframework.integration.metadata.SimpleMetadataStore;
+import org.springframework.integration.metadata.PropertiesPersistingMetadataStore;
+import org.springframework.integration.metadata.MetadataStore;
 
 import com.jollyworks.kafkademo.pipeline.rss.dto.RssItem;
 import com.jollyworks.kafkademo.platform.StringHashFunction;
@@ -26,18 +27,25 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RssConfiguration {
 
-    // Define an in-memory metadata store to track processed entries.
-    //TODO this should be a persistent store
+    // Define a persistent metadata store to track processed entries.
     @Bean
-    public SimpleMetadataStore metadataStore() {
-        return new SimpleMetadataStore();
+    public MetadataStore metadataStore(@Value("${rss.metadata.store.file:rss-metadata.properties}") String metadataFile) {
+        PropertiesPersistingMetadataStore metadataStore = new PropertiesPersistingMetadataStore();
+        metadataStore.setBaseDirectory(metadataFile);
+        try {
+            metadataStore.afterPropertiesSet();
+        } catch (Exception e) {
+            log.error("Error initializing metadata store", e);
+            throw new RuntimeException("Failed to initialize metadata store", e);
+        }
+        return metadataStore;
     }
 
     @Bean
     public IntegrationFlow feedFlow(@Value("${rss.feed.url}") Resource feedResource,
             @Value("${rss.feed.duration:3600}") long durationsec,
             @Value("${rss.feed.maxMessagesPerPoll:5}") int maxMessagesPerPoll,
-            SimpleMetadataStore metadataStore,
+            MetadataStore metadataStore,
             StringHashFunction stringHashFunction) {
 
         Function<String, String> hashUniqueString = (String input) -> {
